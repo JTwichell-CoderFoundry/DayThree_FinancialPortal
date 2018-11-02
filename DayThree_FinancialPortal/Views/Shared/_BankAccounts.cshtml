@@ -1,0 +1,95 @@
+﻿@using DayThree_FinancialPortal.Helpers
+@using DayThree_FinancialPortal.Models
+@model Household
+
+<!-- page content -->
+@*<style>
+    .tile {
+        outline: solid 2px #2A3F54;
+        transition: outline 0.6s linear;
+        margin-bottom: 20px;
+    }
+
+        .tile:hover {
+            outline-width: 5px;
+            background-color: blanchedalmond;
+        }
+    
+    .templateBtn {
+        background-color: #2A3F54;
+        color: white;
+        min-width: 100%;
+    }
+
+    .acctLabel {
+        color: #26B99A;
+    }
+</style>*@
+        
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @Html.ActionLink("Add Account", "Create", "BankAccounts", new { id = Model.Id}, new { Style = "font-size:large" })
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="">
+            <div class="x_content">
+                <div class="row top_tiles" style="margin: 10px 0;">    
+                    @foreach (var account in Model.BankAccounts)
+                    {
+                        <div class="col-md-offset-1 col-md-3 tile">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>Account Name:</b> <span class="acctLabel">@account.Name</span></h4>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>Starting Balance:</b> @account.StartingBalance</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <h4><b>Current Balance:</b> @account.CurrentBalance</h4>
+                                    <br />
+                                    <span class="sparkline_two" style="height: 160px;">
+                                        <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <hr />
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("Add Transaction", "Create", "Transactions", new { id = account.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("List Transactions", "Index", "Transactions", new { id = account.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("Edit", "Edit", "BankAccounts", new { id = account.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("Delete", "Delete", "BankAccounts", new { id = account.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>                               
+                            </div>
+                        </div>
+                    }  
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+<!-- /page content -->

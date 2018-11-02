@@ -1,0 +1,112 @@
+﻿@using DayThree_FinancialPortal.ViewModels
+@model AcceptViewModel
+
+@{
+    ViewBag.Title = "Register & Accept Invitation";
+}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h2>@ViewBag.Title.</h2>
+
+                @using (Html.BeginForm("AcceptRegister", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Email)
+                    @Html.HiddenFor(m => m.Code)
+
+                    <hr />
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @disabled = "disabled", @id="DisabledEmail" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Code, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @disabled = "disabled", @id="DisabledCode" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control checkData" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LastName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control checkData" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control checkData" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control checkData" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control checkData" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input type="submit" class="btn btn-default" value="Register" id="btnSubmit" />
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+  <script>
+      //Start off the Submit button as disabled until all the fields are filled
+      $("#btnSubmit").prop("disabled", true);
+
+      //Trigger a Sweet Alert if any validation fails
+      var errorMsg = "@TempData["ErrorMsg"]";
+      if (errorMsg != "") {
+          swal("Uh Oh, Errors were found", errorMsg, "error");
+      }    
+
+      //wire up an event handler that determines whether or not to enable the submit button onBlur
+      $(".checkData").keyup(function () {
+          CheckData();
+      });
+
+      function CheckData() {
+          if ($("#FirstName").val() != "" && $("#LastName").val() != "" && $("#DisplayName").val() != "" && $("#Password").val() != "" && $("#ConfirmPassword").val() != "") {
+              $("#btnSubmit").prop("disabled", false);
+          }
+          else {
+              $("#btnSubmit").prop("disabled", true);
+          }
+
+      }
+
+    </script>
+
+
+
+
+
+}

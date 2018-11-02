@@ -1,0 +1,64 @@
+﻿@using DayThree_FinancialPortal.Helpers
+@using DayThree_FinancialPortal.Models
+@model Household
+
+
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.ActionLink("Add Account", "Create", "BankAccounts", new { id = Model.Id }, new { Style = "font-size:large" })
+    </div>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="">
+            <div class="x_content">
+                <div class="row top_tiles" style="margin: 10px 0;">
+                    @foreach (var budget in Model.Budgets)
+                    {
+                        <div class="col-md-3 tile">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>Budget Name:</b> <span class="acctLabel">@budget.Name</span></h4>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>Spending Target:</b> @budget.SpendingTarget</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <h4><b>Current Balance:</b> @budget.CurrentBalance</h4>
+                                    <br />
+                                    <span class="sparkline_two" style="height: 160px;">
+                                        <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <hr />
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("Add Budget", "Create", "Budgets", new { id = budget.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @Html.ActionLink("Edit Budget", "Edit", "Budgets", new { id = budget.Id }, new { @class = "btn btn-sm templateBtn" })
+                                </div>
+                            </div>                                                      
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /page content -->

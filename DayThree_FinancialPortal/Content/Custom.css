@@ -1,0 +1,21 @@
+﻿
+.tile {
+    outline: solid 2px #2A3F54;
+    transition: outline 0.6s linear;
+    margin-bottom: 20px;
+}
+
+.tile:hover {
+    outline-width: 5px;
+    background-color: blanchedalmond;
+}
+
+.templateBtn {
+    background-color: #2A3F54;
+    color: white;
+    min-width: 100%;
+}
+
+.acctLabel {
+    color: #26B99A;
+}

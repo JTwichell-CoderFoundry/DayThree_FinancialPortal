@@ -1,0 +1,371 @@
+﻿@using DayThree_FinancialPortal.Models
+@using DayThree_FinancialPortal.Helpers
+@model Household
+
+@{
+    ViewBag.Title = "Household Dashboard";
+}
+
+<style>
+    .houseBtn {
+        min-width: 100%;
+    }
+
+    #btnCreate, #btnLeave {
+        color: white;
+        background-color: #2A3F54;
+    }
+
+    .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+        color: #fff;
+        background-color: #2A3F54;
+    }
+</style>
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <h2 class="text-center"><b>Welcome to @Model.Name</b></h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-4">
+                    @if (User.IsInRole("Head Of Household"))
+                    {
+                        @Html.ActionLink("CREATE INVITATION", "Invite", "Households", new { id = Model.Id }, new { @class = "btn btn-danger houseBtn" })
+                    }
+                    @Html.ActionLink("LEAVE HOUSEHOLD", "Leave", "Households", new { id = Model.Id }, new { @id = "btnLeave", @class = "btn houseBtn" })
+                </div>
+            </div>
+            <hr />
+
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><b>Bank Account Summary</b></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <div class="row tile_count">                            
+                                @foreach (var account in Model.BankAccounts)
+                                {
+                                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                                        <span class="count_top"><i class="fa fa-bank"></i><b> @account.Name</b></span>
+                                        <div class="count">$@account.CurrentBalance</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><b>Budget Chart(s)</b></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <div class="row">
+                                <div id="budgetChart" style="height: 200px" class="col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><b>Non-Zero Budget Item Chart(s)</b></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <div class="row">
+                                <div id="positiveBudgetItemChart" style="height: 200px" class="col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><b>All Budget Item Chart(s)</b></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <div class="row">
+                                <div id="budgetItemChart" style="height: 200px" class="col-md-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2><b>Household Information</b></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#">Settings 1</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Settings 2</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <div class="dashboard-widget-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="nav nav-pills">
+                                        <li class="active"><a data-toggle="pill" href="#data">Data</a></li>
+                                        <li><a data-toggle="pill" href="#members">Members</a></li>
+                                        <li><a data-toggle="pill" href="#accounts">Bank Accounts</a></li>
+                                        <li><a data-toggle="pill" href="#budgets">Budgets</a></li>
+                                        <li><a data-toggle="pill" href="#items">BudgetItems</a></li>
+                                        <li><a data-toggle="pill" href="#transactions">Transactions</a></li>
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="data" class="tab-pane fade in active">
+                                            <div class="row tile_count">
+                                                <h3><b>Budget Data</b></h3>
+                                                @foreach (var budget in Model.Budgets)
+                                                {
+                                                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-money"></i><b> @budget.Name</b></span>
+                                                        <br />
+                                                        <span>Target:</span><div class="count">$@budget.SpendingTarget</div>
+                                                        <span>Current:</span><div class="count">$@budget.CurrentBalance</div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            <div class="row tile_count">
+                                                <h3><b>Budget Item Data</b></h3>
+                                                @foreach (var budgetItem in Model.Budgets.SelectMany(b => b.BudgetItems))
+                                                {
+                                                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-money"></i><b> @budgetItem.Name</b></span>
+                                                        <div class="count">$@budgetItem.CurrentBalance</div>
+                                                    </div>
+                                                }
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+                                        <div id="members" class="tab-pane fade">
+                                            @Html.Partial("_Members")
+                                        </div>
+                                        <div id="accounts" class="tab-pane fade">
+                                            @Html.Partial("_BankAccounts")
+                                        </div>
+                                        <div id="budgets" class="tab-pane fade">
+                                            @Html.Partial("_Budgets")
+                                        </div>
+                                        <div id="items" class="tab-pane fade">
+                                            @Html.Partial("_BudgetItems")
+                                        </div>
+                                        <div id="transactions" class="tab-pane fade">
+                                            @Html.Partial("_Transactions")
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            var selector = '@ViewBag.ActiveTab';
+            if(selector)
+            {
+                $("#link-tab"+selector).tab('show');
+            }
+        });
+    </script>
+
+    <script>
+        $.post('@Url.Action("GetBudgetDataForBarChart", "Morris")').then
+        (function (response) {
+            new Morris.Bar({
+                element: 'budgetChart',
+                data: response,
+                xkey: 'Label',
+                ykeys: ['Target','Actual'],
+                labels: ['Target', 'Actual'],
+                xLabelAngle: 45,
+                gridTextColor: '#555',
+                barColors: ['#2A3F54','#d9534f'],
+                preUnits: '$'
+            })
+        })
+    </script>
+
+    <script>
+        $.post('@Url.Action("GetBudgetItemDataForBarChart", "Morris")').then
+        (function (response) {
+            new Morris.Bar({
+                element: 'budgetItemChart',
+                data: response,
+                xkey: 'Label',
+                ykeys: ['Actual'],
+                labels: ['Actual'],
+                xLabelAngle: 45,
+                xLabelAngle: 45,
+                gridTextColor: '#555',
+                barColors: ['#2A3F54'],
+                preUnits: '$'
+            })
+        })
+    </script>
+
+    <script>
+        $.post('@Url.Action("GetPositiveBudgetItemDataForBarChart", "Morris")').then
+        (function (response) {
+            new Morris.Bar({
+                element: 'positiveBudgetItemChart',
+                data: response,
+                xkey: 'Label',
+                ykeys: ['Actual'],
+                labels: ['Actual'],
+                xLabelAngle: 45,
+                gridTextColor: '#555',
+                barColors: ['#2A3F54'],
+                preUnits: '$'
+            })
+        })
+    </script>
+
+
+
+
+}
+
+
+
