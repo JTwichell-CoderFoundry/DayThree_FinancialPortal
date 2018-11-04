@@ -35,8 +35,9 @@ namespace DayThree_FinancialPortal.Controllers
                 budgetData.Add(new MorrisBudgetBar
                 {
                     Label = budget.Name,
-                    Target = (int)budget.SpendingTarget,
-                    Actual = (int)budget.CurrentBalance
+                    Target = budget.SpendingTarget,
+                    Actual = budget.CurrentBalance,
+                    BarColor = budget.CurrentBalance > budget.SpendingTarget ? "red" : "green";
                 });         
             }
 
@@ -66,7 +67,7 @@ namespace DayThree_FinancialPortal.Controllers
                     budgetItemData.Add(new MorrisBudgetItemBar
                     {
                         Label = budgetItem.Name,
-                        Actual = (int)budgetItem.CurrentBalance
+                        Actual = budgetItem.CurrentBalance
                     });
                 }
             }
@@ -99,7 +100,7 @@ namespace DayThree_FinancialPortal.Controllers
                         budgetItemData.Add(new MorrisBudgetItemBar
                         {
                             Label = budgetItem.Name,
-                            Actual = (int)budgetItem.CurrentBalance
+                            Actual = budgetItem.CurrentBalance
                         });
                     }
                 }

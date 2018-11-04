@@ -20,15 +20,16 @@ namespace DayThree_FinancialPortal.ViewModels
     public class MorrisBudgetBar
     {
         public string Label { get; set; }
-        public int Target { get; set; }
-        public int Actual { get; set; }
+        public decimal Target { get; set; }
+        public decimal Actual { get; set; }
+        public string  BarColor { get; set; }
 
     }
 
     public class MorrisBudgetItemBar
     {
         public string Label { get; set; }      
-        public int Actual { get; set; }
+        public decimal Actual { get; set; }
     }
 
 }

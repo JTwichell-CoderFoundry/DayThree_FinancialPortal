@@ -70,7 +70,7 @@
                     </div>
                     <div class="x_content">
                         <div class="dashboard-widget-content">
-                            <div class="row tile_count">                            
+                            <div class="row tile_count">
                                 @foreach (var account in Model.BankAccounts)
                                 {
                                     <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -84,10 +84,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
 
         <div class="row">
             <div class="col-md-12">
@@ -321,12 +317,21 @@
                 labels: ['Target', 'Actual'],
                 xLabelAngle: 45,
                 gridTextColor: '#555',
-                barColors: ['#2A3F54','#d9534f'],
+                barColors: function (row, series, type) {
+                    if (series.key == 'Actual') {                      
+                        return row.;
+                        else
+                            return "blue";
+                    }
+                    else {
+                        return "green";
+                    }
+                }
+                barColors: ['#2A3F54', '#d9534f'],
                 preUnits: '$'
             })
         })
     </script>
-
     <script>
         $.post('@Url.Action("GetBudgetItemDataForBarChart", "Morris")').then
         (function (response) {
@@ -344,7 +349,6 @@
             })
         })
     </script>
-
     <script>
         $.post('@Url.Action("GetPositiveBudgetItemDataForBarChart", "Morris")').then
         (function (response) {
@@ -365,7 +369,7 @@
 
 
 
-}
+    }
 
 
 
